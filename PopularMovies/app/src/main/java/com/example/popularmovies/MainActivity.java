@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private List<FavoriteMovie> favMovs;
 
     //Insert API key here
-    String api_key = "be2874b98bdb4541dfc391234954d61b";
+    String api_key = "";
 
     @Override
     public void onRestart() {
