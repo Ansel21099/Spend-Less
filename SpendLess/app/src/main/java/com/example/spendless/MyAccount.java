@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 public class MyAccount extends AppCompatActivity {
 
     TextView tvname,tvemail,tvcurrency,tvrating,tvincome,tvexpense;
-    String name;
+    String name,email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class MyAccount extends AppCompatActivity {
                         name = ""+post.child("name").getValue();
                         tvcurrency.setText(getString(R.string.currency) + post.child("currency").getValue());
                         tvemail.setText(getString(R.string.emal) + post.child("email").getValue());
+                        email = ""+ post.child("email").getValue();
                         tvexpense.setText(getString(R.string.totalexpense) + post.child("totalexpense").getValue());
                         tvincome.setText(getString(R.string.totalincom) + post.child("totalincome").getValue());
                         tvrating.setText(getString(R.string.rating) + post.child("rating").getValue());
@@ -70,6 +71,7 @@ public class MyAccount extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(),EditAccount.class);
                 i.putExtra("name",name);
+                i.putExtra("email",email);
                 startActivity(i);
             }
         });

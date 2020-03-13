@@ -1,5 +1,6 @@
 package com.example.spendless;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -12,6 +13,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +29,7 @@ import java.util.Map;
 public class EditAccount extends AppCompatActivity {
 
     EditText etname;
+    String name , email;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myref = database.getReference(Constants.TBL_USER_DATA);
     @Override
@@ -33,7 +38,8 @@ public class EditAccount extends AppCompatActivity {
         setContentView(R.layout.activity_edit_account);
 
         Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
+        name = intent.getStringExtra("name");
+        email = intent.getStringExtra("email");
         etname = findViewById(R.id.eaEtName);
         etname.setText(name);
         final Spinner spinner = findViewById(R.id.spinner);
@@ -59,6 +65,22 @@ public class EditAccount extends AppCompatActivity {
                     updates.put("currency",spinner.getSelectedItem().toString());
                     myref.child(Constants.uid).updateChildren(updates);
                 }
+            }
+        });
+
+        findViewById(R.id.eaBtnChangePassword).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    new ShowToast(getApplicationContext(), "Reset email has been sent");
+                                } else
+                                    new ShowToast(getApplicationContext(), "Something went wrong");
+                            }
+                        });
             }
         });
     }
