@@ -42,7 +42,6 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         mAuth = FirebaseAuth.getInstance();
         btnLogin = findViewById(R.id.alBtnLogin);
         //BtnCreate = findViewById(R.id.btnCreateAccount);
@@ -170,6 +169,7 @@ public class Login extends AppCompatActivity {
                                         // Sign in success, update UI with the signed-in user's information
                                         Constants.NAME=fbName;
                                         Constants.EMAIL=fbEmail;
+                                        Constants.uid = mAuth.getUid();
                                         SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
                                         SharedPreferences.Editor myEdit = sp.edit();
                                         myEdit.putString("email",sEmail);

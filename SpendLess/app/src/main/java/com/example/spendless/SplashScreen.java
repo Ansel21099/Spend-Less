@@ -60,6 +60,7 @@ public class SplashScreen extends AppCompatActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Constants.NAME = name;
                         Constants.EMAIL = email;
+                        Constants.uid = mAuth.getUid();
                         FirebaseUser user = mAuth.getCurrentUser();
                         Intent intent = new Intent(getApplicationContext(), Home_Page.class);
                         finishAffinity();
