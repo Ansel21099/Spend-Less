@@ -35,4 +35,7 @@
     <string name="cg">Name</string>
     <string name="update">Update</string>
     <string name="change_password">Change Password</string>
+    <string name="title_activity_add">Add</string>
+    <string name="tab_text_1">Add Income</string>
+    <string name="tab_text_2">Add Expense</string>
 </resources>

@@ -13,7 +13,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditAccount"></activity>
+        <activity android:name=".EditAccount" />
         <activity android:name=".MyAccount" />
         <activity
             android:name=".Home_Page"
@@ -30,6 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Add" />
     </application>
 
 </manifest>
