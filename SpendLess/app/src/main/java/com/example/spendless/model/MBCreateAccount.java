@@ -2,7 +2,7 @@ package com.example.spendless.model;
 
 public class MBCreateAccount {
     String name,email,currency;
-    double rating,totalincome,totalexpense;
+    Double rating,totalincome,totalexpense;
 
     public MBCreateAccount(String name, String email, String currency, double rating, double totalincome, double totalexpense) {
         this.name = name;
