@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.spendless.model.MBAddTransaction;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,6 +55,7 @@ public class AddIncome extends Fragment {
 
 
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class AddIncome extends Fragment {
         String c[] = {"Salary","Allowance","Gift","Interest","Business","Other"};
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(Objects.requireNonNull(getActivity()),   android.R.layout.simple_spinner_dropdown_item, c);
         sp.setAdapter(spinnerArrayAdapter);
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
 
 
@@ -82,7 +85,10 @@ public class AddIncome extends Fragment {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         date = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                         if (dayOfMonth>mDay || monthOfYear>mMonth || year > mYear)
+                        {
                             txtDate.setText(date);
+                            node=(monthOfYear + 1) + "-" + year;
+                        }
                         else {
                             txtDate.setText(mDay + "-" + (mMonth + 1) + "-" + mYear);
                             node=(mMonth + 1) + "-" + mYear;
@@ -101,19 +107,20 @@ public class AddIncome extends Fragment {
                     edamt.setError("Enter Amount");
                 else
                 {
+                    String date = txtDate.getText().toString();
                     amount=Double.parseDouble( edamt.getText().toString());
                     MBAddTransaction mb = new MBAddTransaction(sp.getSelectedItem().toString(),txtDate.getText().toString(),eddescription.getText().toString(),"Income",Double.parseDouble( edamt.getText().toString()));
-                    myRef.child(Constants.uid).child(node).child(txtDate.getText().toString()).push().setValue(mb);
+                    myRef.child(""+mAuth.getUid()).child(node).child(""+date).push().setValue(mb);
 
+                    new ShowToast(getActivity(),"Added");
 
-
-                    final Query getTotalQuery = FirebaseDatabase.getInstance().getReference(Constants.TBL_USER_DATA).child(Constants.uid);
+                    final Query getTotalQuery = FirebaseDatabase.getInstance().getReference(Constants.TBL_USER_DATA).child(""+mAuth.getUid());
                     getTotalQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                         Map<String, Object> updates = new HashMap<String, Object>();
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                           income = Double.parseDouble( ""+dataSnapshot.child("totalincome").getValue());
-                           expense = Double.parseDouble( ""+dataSnapshot.child("totalexpense").getValue());
+                           income = 0 + Double.parseDouble( ""+dataSnapshot.child("totalincome").getValue());
+                           expense = 0 + Double.parseDouble( ""+dataSnapshot.child("totalexpense").getValue());
                             updates.put("rating", Math.round(income/expense));
                             updates.put("totalincome", Math.round(income+amount));
                             myref.child(Constants.uid).updateChildren(updates);

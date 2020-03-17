@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.spendless.model.MBAddTransaction;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,6 +51,8 @@ public class AddExpense extends Fragment {
     DatabaseReference myref = database.getReference(Constants.TBL_USER_DATA);
     Double income,expense,amount;
 
+    final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -61,7 +64,7 @@ public class AddExpense extends Fragment {
         eddescription = root.findViewById(R.id.aefTiDescription);
         sp = root.findViewById(R.id.spCategory1);
         String c[] = {"Food","Clothes","Bills","Maintenance","Travel","Other"};
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(Objects.requireNonNull(getActivity()),   android.R.layout.simple_spinner_dropdown_item, c);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(Objects.requireNonNull(getActivity()),   android.R.layout.simple_spinner_dropdown_item,c);
         sp.setAdapter(spinnerArrayAdapter);
 
 
@@ -78,7 +81,8 @@ public class AddExpense extends Fragment {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         date = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                         if (dayOfMonth>mDay || monthOfYear>mMonth || year > mYear)
-                            txtDate.setText(date);
+                        { txtDate.setText(date);
+                            node=(monthOfYear + 1) + "-" + year;}
                         else {
                             txtDate.setText(mDay + "-" + (mMonth + 1) + "-" + mYear);
                             node=(mMonth + 1) + "-" + mYear;
@@ -99,19 +103,19 @@ public class AddExpense extends Fragment {
                 {
                     amount=-Double.parseDouble( edamt.getText().toString());
                     MBAddTransaction mb = new MBAddTransaction(sp.getSelectedItem().toString(),txtDate.getText().toString(),eddescription.getText().toString(),"Expense",amount);
-                    myRef.child(Constants.uid).child(node).child(txtDate.getText().toString()).push().setValue(mb);
+                    myRef.child(""+mAuth.getUid()).child(node).child(txtDate.getText().toString()).push().setValue(mb);
 
+                    new ShowToast(getActivity(),"Added");
 
-
-                    final Query getTotalQuery = FirebaseDatabase.getInstance().getReference(Constants.TBL_USER_DATA).child(Constants.uid);
+                    Query getTotalQuery = FirebaseDatabase.getInstance().getReference(Constants.TBL_USER_DATA).child(""+mAuth.getUid());
                     getTotalQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                         Map<String, Object> updates = new HashMap<String, Object>();
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            income = Double.parseDouble( ""+dataSnapshot.child("totalincome").getValue());
-                            expense = Double.parseDouble( ""+dataSnapshot.child("totalexpense").getValue());
-                            updates.put("rating", income/expense);
-                            updates.put("totalexpense", Math.round(expense-amount));
+                            income = 0 + Double.parseDouble( ""+dataSnapshot.child("totalincome").getValue());
+                            expense = 0 + Double.parseDouble( ""+dataSnapshot.child("totalexpense").getValue());
+                            updates.put("rating",  income/expense);
+                            updates.put("totalexpense", expense-amount);
                             myref.child(Constants.uid).updateChildren(updates);
                         }
 
@@ -120,12 +124,10 @@ public class AddExpense extends Fragment {
 
                         }
                     });
-
-
                 }
             }
         });
-return root;
+        return root;
 
     }
 

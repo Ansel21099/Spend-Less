@@ -37,12 +37,6 @@ public class Home_Page extends AppCompatActivity {
         navUsername.setText(Constants.NAME);
         navEmail.setText(Constants.EMAIL);
 
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Add.class));
-            }
-        });
 
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -41,4 +41,7 @@
     <string name="select_date">Select Date</string>
     <string name="description">Description</string>
     <string name="save">Save</string>
+    <string name="this_month">This Month :</string>
+    <string name="today">Today :</string>
+    <string name="month">Month :</string>
 </resources>
