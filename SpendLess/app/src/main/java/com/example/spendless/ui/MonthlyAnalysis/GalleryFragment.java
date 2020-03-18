@@ -105,12 +105,19 @@ public class GalleryFragment extends Fragment {
                                pieChart.clear();
                                if (items!=null)
                                items.clear();
-                               items.add(new PieEntry(a,"Food"));
-                               items.add(new PieEntry(b,"Clothes"));
-                               items.add(new PieEntry(c,"Bills"));
-                               items.add(new PieEntry(d,"Maintenance"));
-                               items.add(new PieEntry(e,"Travel"));
-                               items.add(new PieEntry(f,"Other"));
+                               if (a>0)
+                                   items.add(new PieEntry(a,"Food"));
+                               if (b>0)
+                                   items.add(new PieEntry(b,"Clothes"));
+                               if (c>0)
+                                   items.add(new PieEntry(c,"Bills"));
+                               if (d>0)
+                                   items.add(new PieEntry(d,"Maintenance"));
+                               if (e>0)
+                                   items.add(new PieEntry(e,"Travel"));
+                               if (f>0)
+                                   items.add(new PieEntry(f,"Other"));
+
                                PieDataSet dataSet = new PieDataSet(items, "Expenses");
                                PieData data = new PieData();
                                data.addDataSet(dataSet);

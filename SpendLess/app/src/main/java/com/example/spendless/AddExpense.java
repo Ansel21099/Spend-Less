@@ -48,7 +48,7 @@ public class AddExpense extends Fragment {
     String node;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference(Constants.TBL_TRANSACTIONS);
-    DatabaseReference myref = database.getReference(Constants.TBL_USER_DATA);
+
     Double income,expense,amount;
 
     final FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -64,9 +64,8 @@ public class AddExpense extends Fragment {
         eddescription = root.findViewById(R.id.aefTiDescription);
         sp = root.findViewById(R.id.spCategory1);
         String c[] = {"Food","Clothes","Bills","Maintenance","Travel","Other"};
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(Objects.requireNonNull(getActivity()),   android.R.layout.simple_spinner_dropdown_item,c);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(Objects.requireNonNull(getActivity()),android.R.layout.simple_spinner_dropdown_item,c);
         sp.setAdapter(spinnerArrayAdapter);
-
 
         root.findViewById(R.id.aefBtnSelectDate).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,31 +98,15 @@ public class AddExpense extends Fragment {
             public void onClick(View v) {
                 if(edamt.getText().toString().isEmpty())
                     edamt.setError("Enter Amount");
+                else if (txtDate.getText().toString().isEmpty())
+                    new ShowToast(getActivity(),"Please Select a date");
                 else
                 {
                     amount=-Double.parseDouble( edamt.getText().toString());
-                    MBAddTransaction mb = new MBAddTransaction(sp.getSelectedItem().toString(),txtDate.getText().toString(),eddescription.getText().toString(),"Expense",amount);
+                    MBAddTransaction mb = new MBAddTransaction(sp.getSelectedItem().toString(),txtDate.getText().toString(),"" + eddescription.getText().toString(),"Expense",amount);
                     myRef.child(""+mAuth.getUid()).child(node).child(txtDate.getText().toString()).push().setValue(mb);
 
                     new ShowToast(getActivity(),"Added");
-
-                    Query getTotalQuery = FirebaseDatabase.getInstance().getReference(Constants.TBL_USER_DATA).child(""+mAuth.getUid());
-                    getTotalQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                        Map<String, Object> updates = new HashMap<String, Object>();
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            income = 0 + Double.parseDouble( ""+dataSnapshot.child("totalincome").getValue());
-                            expense = 0 + Double.parseDouble( ""+dataSnapshot.child("totalexpense").getValue());
-                            updates.put("rating",  income/expense);
-                            updates.put("totalexpense", expense-amount);
-                            myref.child(Constants.uid).updateChildren(updates);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
                 }
             }
         });
@@ -135,7 +118,7 @@ public class AddExpense extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(AddExpenseViewModel.class);
-        // TODO: Use the ViewModel
+
     }
 
 }

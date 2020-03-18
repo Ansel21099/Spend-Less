@@ -105,6 +105,8 @@ public class AddIncome extends Fragment {
             public void onClick(View v) {
                 if(edamt.getText().toString().isEmpty())
                     edamt.setError("Enter Amount");
+                else if (txtDate.getText().toString().isEmpty())
+                    new ShowToast(getActivity(),"Please Select a date");
                 else
                 {
                     String date = txtDate.getText().toString();
@@ -113,26 +115,6 @@ public class AddIncome extends Fragment {
                     myRef.child(""+mAuth.getUid()).child(node).child(""+date).push().setValue(mb);
 
                     new ShowToast(getActivity(),"Added");
-
-                    final Query getTotalQuery = FirebaseDatabase.getInstance().getReference(Constants.TBL_USER_DATA).child(""+mAuth.getUid());
-                    getTotalQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                        Map<String, Object> updates = new HashMap<String, Object>();
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                           income = 0 + Double.parseDouble( ""+dataSnapshot.child("totalincome").getValue());
-                           expense = 0 + Double.parseDouble( ""+dataSnapshot.child("totalexpense").getValue());
-                            updates.put("rating", Math.round(income/expense));
-                            updates.put("totalincome", Math.round(income+amount));
-                            myref.child(Constants.uid).updateChildren(updates);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-
                 }
             }
         });

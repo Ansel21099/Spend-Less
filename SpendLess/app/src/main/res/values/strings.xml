@@ -44,4 +44,9 @@
     <string name="this_month">This Month :</string>
     <string name="today">Today :</string>
     <string name="month">Month :</string>
+    <string name="date">Date</string>
+    <string name="savedd">Save</string>
+    <string name="submit">Submit</string>
+    <string name="type_here">Type here...</string>
+    <string name="send_feedback">Send Feedback</string>
 </resources>

@@ -10,4 +10,5 @@ public class Constants {
     //Nodes
     public final static String TBL_USER_DATA = "User Data";
     public final static String TBL_TRANSACTIONS = "Transaction";
+    public final static String TBL_USER_FEEDBACK = "User Feedback";
 }
