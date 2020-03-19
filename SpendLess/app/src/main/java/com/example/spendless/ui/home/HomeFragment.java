@@ -1,5 +1,8 @@
 package com.example.spendless.ui.home;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.spendless.Add;
+import com.example.spendless.AppWidget;
 import com.example.spendless.Constants;
 import com.example.spendless.LvTransactionsAdapter;
 import com.example.spendless.ModelTransactions;
@@ -46,6 +51,8 @@ public class HomeFragment extends Fragment {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+        root.findViewById(R.id.fhLoading).setVisibility(View.VISIBLE);
+        root.findViewById(R.id.fhProgress).setVisibility(View.VISIBLE);
 
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
@@ -112,6 +119,23 @@ public class HomeFragment extends Fragment {
                 tvexpense.setText(""+expense);
                 tvtotalexpense.setText(""+totalexpense);
                 tvtotalincome.setText(""+totalincome);
+
+                try
+                    {
+                        Context context = getActivity();
+                        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+                        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.app_widget);
+                        ComponentName thisWidget = new ComponentName(context, AppWidget.class);
+                        remoteViews.setTextViewText(R.id.awTvExpense, "-"+expense);
+                        remoteViews.setTextViewText(R.id.awTvIncome, "+"+income);
+                        appWidgetManager.updateAppWidget(thisWidget, remoteViews);
+                }
+                catch (Exception e)
+                {}
+
+                root.findViewById(R.id.fhLoading).setVisibility(View.GONE);
+                root.findViewById(R.id.fhProgress).setVisibility(View.GONE);
+
 
             }
 

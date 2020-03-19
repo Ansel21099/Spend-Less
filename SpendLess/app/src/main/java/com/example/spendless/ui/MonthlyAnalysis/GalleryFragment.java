@@ -57,6 +57,7 @@ public class GalleryFragment extends Fragment {
         getmonthquery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                months.clear();
                 for (DataSnapshot post : dataSnapshot.getChildren())
                 {
                     months.add(""+post.getKey());
@@ -118,20 +119,19 @@ public class GalleryFragment extends Fragment {
                                if (f>0)
                                    items.add(new PieEntry(f,"Other"));
 
-                               PieDataSet dataSet = new PieDataSet(items, "Expenses");
-                               PieData data = new PieData();
-                               data.addDataSet(dataSet);
-                               pieChart.setData(data);
-                               dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-                               dataSet.setSliceSpace(2f);
-                               dataSet.setValueTextColor(Color.WHITE);
-                               dataSet.setValueTextSize(20f);
-                               dataSet.setSliceSpace(5f);
-                               pieChart.animateXY(3000, 3000);
-                               Legend l = pieChart.getLegend();
-                               l.setEnabled(false);
-                               pieChart.getDescription().setEnabled(false);
-
+                                   PieDataSet dataSet = new PieDataSet(items, "Expenses");
+                                   PieData data = new PieData();
+                                   data.addDataSet(dataSet);
+                                   pieChart.setData(data);
+                                   dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+                                   dataSet.setSliceSpace(2f);
+                                   dataSet.setValueTextColor(Color.WHITE);
+                                   dataSet.setValueTextSize(20f);
+                                   dataSet.setSliceSpace(5f);
+                                   pieChart.animateXY(3000, 3000);
+                                   Legend l = pieChart.getLegend();
+                                   l.setEnabled(false);
+                                   pieChart.getDescription().setEnabled(false);
                            }
 
                            @Override

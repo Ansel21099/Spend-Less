@@ -50,7 +50,6 @@ public class AddIncome extends Fragment {
     String node;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference(Constants.TBL_TRANSACTIONS);
-    DatabaseReference myref = database.getReference(Constants.TBL_USER_DATA);
     Double income,expense,amount;
 
 
@@ -115,6 +114,10 @@ public class AddIncome extends Fragment {
                     myRef.child(""+mAuth.getUid()).child(node).child(""+date).push().setValue(mb);
 
                     new ShowToast(getActivity(),"Added");
+
+                    txtDate.setText("");
+                    edamt.setText("");
+                    eddescription.setText("");
                 }
             }
         });

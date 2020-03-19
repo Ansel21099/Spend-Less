@@ -105,8 +105,12 @@ public class AddExpense extends Fragment {
                     amount=-Double.parseDouble( edamt.getText().toString());
                     MBAddTransaction mb = new MBAddTransaction(sp.getSelectedItem().toString(),txtDate.getText().toString(),"" + eddescription.getText().toString(),"Expense",amount);
                     myRef.child(""+mAuth.getUid()).child(node).child(txtDate.getText().toString()).push().setValue(mb);
-
                     new ShowToast(getActivity(),"Added");
+
+                    txtDate.setText("");
+                    edamt.setText("");
+                    eddescription.setText("");
+
                 }
             }
         });

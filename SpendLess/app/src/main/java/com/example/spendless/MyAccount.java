@@ -93,7 +93,10 @@ public class MyAccount extends AppCompatActivity {
                             }
                         }
                     }
-                    rating = totalincome/totalexpense;
+                    if(totalexpense==0)
+                        rating = 99.9;
+                    else
+                        rating = totalincome/totalexpense;
                     tvexpense.setText(getString(R.string.totalexpense) + totalexpense);
                     tvincome.setText(getString(R.string.totalincom) + totalincome);
                     tvrating.setText(getString(R.string.rating) + new DecimalFormat("##.##").format(rating));
@@ -111,9 +114,6 @@ public class MyAccount extends AppCompatActivity {
 
             }
         });
-
-
-
 
         findViewById(R.id.maBtnEditProfile).setOnClickListener(new View.OnClickListener() {
             @Override

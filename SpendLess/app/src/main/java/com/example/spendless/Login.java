@@ -44,7 +44,6 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         btnLogin = findViewById(R.id.alBtnLogin);
-        //BtnCreate = findViewById(R.id.btnCreateAccount);
         etEmail = findViewById(R.id.alTiEmail);
         etPassword = findViewById(R.id.alTiPassword);
         forgotpassword = findViewById(R.id.forgotpassword);
@@ -66,17 +65,17 @@ public class Login extends AppCompatActivity {
             }
         });
 
-/*
+
         findViewById(R.id.tvhavingtrouble).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent Email = new Intent(Intent.ACTION_SEND);
                 Email.setType("text/email");
-                Email.putExtra(Intent.EXTRA_EMAIL, new String[]{"milagresapp@gmail.com"});
+                Email.putExtra(Intent.EXTRA_EMAIL, new String[]{"anselgons22@gmail.com"});
                 Email.putExtra(Intent.EXTRA_SUBJECT, "Trouble Report - " + Build.MANUFACTURER + ", " + Build.MODEL + ", Android Version : " + Build.VERSION.RELEASE);
                 startActivity(Intent.createChooser(Email, "Choose Mail Client : "));
             }
-        });*/
+        });
 
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
