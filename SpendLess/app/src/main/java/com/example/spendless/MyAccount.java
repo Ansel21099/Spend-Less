@@ -1,11 +1,15 @@
 package com.example.spendless;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -44,7 +48,10 @@ public class MyAccount extends AppCompatActivity {
         findViewById(R.id.maViewloading).setVisibility(View.VISIBLE);
         findViewById(R.id.maBtnEditProfile).setVisibility(View.INVISIBLE);
 
-
+        ActionBar actionBar = this.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         final Query getAccountDetailsQuery = FirebaseDatabase.getInstance().getReference(Constants.TBL_USER_DATA);
         getAccountDetailsQuery.addValueEventListener(new ValueEventListener() {
@@ -125,5 +132,13 @@ public class MyAccount extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -50,9 +50,7 @@ public class AddIncome extends Fragment {
     String node;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference(Constants.TBL_TRANSACTIONS);
-    Double income,expense,amount;
-
-
+    Double amount;
 
 
     @Override
@@ -83,15 +81,8 @@ public class AddIncome extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         date = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                        if (dayOfMonth>mDay || monthOfYear>mMonth || year > mYear)
-                        {
-                            txtDate.setText(date);
-                            node=(monthOfYear + 1) + "-" + year;
-                        }
-                        else {
-                            txtDate.setText(mDay + "-" + (mMonth + 1) + "-" + mYear);
-                            node=(mMonth + 1) + "-" + mYear;
-                        }
+                        txtDate.setText(date);
+                        node=(monthOfYear + 1) + "-" + year;
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -111,7 +102,7 @@ public class AddIncome extends Fragment {
                     String date = txtDate.getText().toString();
                     amount=Double.parseDouble( edamt.getText().toString());
                     MBAddTransaction mb = new MBAddTransaction(sp.getSelectedItem().toString(),txtDate.getText().toString(),eddescription.getText().toString(),"Income",Double.parseDouble( edamt.getText().toString()));
-                    myRef.child(""+mAuth.getUid()).child(node).child(""+date).push().setValue(mb);
+                    myRef.child(Constants.uid).child(node).child(""+date).push().setValue(mb);
 
                     new ShowToast(getActivity(),"Added");
 

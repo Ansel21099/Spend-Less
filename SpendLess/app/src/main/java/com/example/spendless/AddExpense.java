@@ -48,10 +48,7 @@ public class AddExpense extends Fragment {
     String node;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference(Constants.TBL_TRANSACTIONS);
-
-    Double income,expense,amount;
-
-    final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    Double amount;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -79,13 +76,8 @@ public class AddExpense extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         date = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                        if (dayOfMonth>mDay || monthOfYear>mMonth || year > mYear)
-                        { txtDate.setText(date);
-                            node=(monthOfYear + 1) + "-" + year;}
-                        else {
-                            txtDate.setText(mDay + "-" + (mMonth + 1) + "-" + mYear);
-                            node=(mMonth + 1) + "-" + mYear;
-                        }
+                        txtDate.setText(mDay + "-" + (mMonth + 1) + "-" + mYear);
+                        node=(mMonth + 1) + "-" + mYear;
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -104,7 +96,7 @@ public class AddExpense extends Fragment {
                 {
                     amount=-Double.parseDouble( edamt.getText().toString());
                     MBAddTransaction mb = new MBAddTransaction(sp.getSelectedItem().toString(),txtDate.getText().toString(),"" + eddescription.getText().toString(),"Expense",amount);
-                    myRef.child(""+mAuth.getUid()).child(node).child(txtDate.getText().toString()).push().setValue(mb);
+                    myRef.child(Constants.uid).child(node).child(txtDate.getText().toString()).push().setValue(mb);
                     new ShowToast(getActivity(),"Added");
 
                     txtDate.setText("");

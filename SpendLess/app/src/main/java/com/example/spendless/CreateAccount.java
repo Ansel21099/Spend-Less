@@ -60,7 +60,6 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     private void signIn() {
-        Log.e("-*-*-*-*-*-*-*", sEmail + sPass);
         mAuth.createUserWithEmailAndPassword(sEmail,sPass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -111,7 +110,6 @@ public class CreateAccount extends AppCompatActivity {
                 sPass = etPass.getText().toString();
                 sName = etName.getText().toString();
                 sEmail = etEmail.getText().toString().toLowerCase();
-                Log.e("-*-*-*-*-*-*-*gd", sEmail + sPass);
                 final Query checkuserquery = FirebaseDatabase.getInstance().getReference( Constants.TBL_USER_DATA ).orderByChild( "email" ).equalTo( sEmail );
                 checkuserquery.addValueEventListener( chkUserVLE );
 

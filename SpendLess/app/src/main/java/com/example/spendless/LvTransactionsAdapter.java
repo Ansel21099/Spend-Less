@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class LvTransactionsAdapter extends BaseAdapter {
         try {
             holder.date.setText(modelList.get(i).getDate());
             holder.category.setText(modelList.get(i).getCategory());
-            holder.amount.setText(""+modelList.get(i).getAmount());
+            holder.amount.setText(""+new DecimalFormat("##.##").format(modelList.get(i).getAmount()));
 
             if(modelList.get(i).getType().equals("Income"))
                 holder.amount.setTextColor(Color.parseColor("#288102"));

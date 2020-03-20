@@ -22,8 +22,10 @@
                 android:resource="@xml/app_widget_info" />
         </receiver>
 
-        <activity android:name=".EditAccount" />
-        <activity android:name=".MyAccount" />
+        <activity android:name=".EditAccount"
+            android:parentActivityName=".EditAccount"/>
+        <activity android:name=".MyAccount"
+            android:parentActivityName=".Home_Page"/>
         <activity
             android:name=".Home_Page"
             android:label="@string/title_activity_home__page"
@@ -37,7 +39,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Add" />
+        <activity android:name=".Add"
+            android:parentActivityName=".Home_Page"/>
     </application>
 
 </manifest>

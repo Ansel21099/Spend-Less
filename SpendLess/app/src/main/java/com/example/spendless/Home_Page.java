@@ -67,6 +67,7 @@ public class Home_Page extends AppCompatActivity {
                 startActivity(i);
                 Constants.NAME="";
                 Constants.EMAIL="";
+                Constants.uid="";
                 SharedPreferences sp = getSharedPreferences("login",MODE_PRIVATE);
                 SharedPreferences.Editor myEdit = sp.edit();
                 myEdit.putString("email","null");

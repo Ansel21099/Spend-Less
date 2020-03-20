@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SplashScreen extends AppCompatActivity {
 
-    String email,pass,phone,name;
+    String email,pass,name;
     private FirebaseAuth mAuth;
 
     @Override
@@ -61,7 +61,6 @@ public class SplashScreen extends AppCompatActivity {
                         Constants.NAME = name;
                         Constants.EMAIL = email;
                         Constants.uid = mAuth.getUid();
-                        FirebaseUser user = mAuth.getCurrentUser();
                         Intent intent = new Intent(getApplicationContext(), Home_Page.class);
                         finishAffinity();
                         startActivity(intent);

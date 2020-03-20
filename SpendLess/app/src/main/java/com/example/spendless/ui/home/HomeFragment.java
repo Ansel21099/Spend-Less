@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -115,10 +116,10 @@ public class HomeFragment extends Fragment {
                         listView.setAdapter(adapter);
                     }
 
-                tvincome.setText(""+income);
-                tvexpense.setText(""+expense);
-                tvtotalexpense.setText(""+totalexpense);
-                tvtotalincome.setText(""+totalincome);
+                tvincome.setText("+"+new DecimalFormat("##.##").format(income));
+                tvexpense.setText("-"+new DecimalFormat("##.##").format(expense));
+                tvtotalexpense.setText("-"+new DecimalFormat("##.##").format(totalexpense));
+                tvtotalincome.setText("+"+new DecimalFormat("##.##").format(totalincome));
 
                 try
                     {
@@ -126,16 +127,17 @@ public class HomeFragment extends Fragment {
                         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.app_widget);
                         ComponentName thisWidget = new ComponentName(context, AppWidget.class);
-                        remoteViews.setTextViewText(R.id.awTvExpense, "-"+expense);
-                        remoteViews.setTextViewText(R.id.awTvIncome, "+"+income);
+                        remoteViews.setTextViewText(R.id.awTvExpense, "-"+new DecimalFormat("##.##").format(expense));
+                        remoteViews.setTextViewText(R.id.awTvIncome, "+"+new DecimalFormat("##.##").format(income));
                         appWidgetManager.updateAppWidget(thisWidget, remoteViews);
                 }
                 catch (Exception e)
-                {}
+                {
+                    e.printStackTrace();
+                }
 
                 root.findViewById(R.id.fhLoading).setVisibility(View.GONE);
                 root.findViewById(R.id.fhProgress).setVisibility(View.GONE);
-
 
             }
 
