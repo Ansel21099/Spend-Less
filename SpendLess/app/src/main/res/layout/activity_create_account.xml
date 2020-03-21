@@ -19,6 +19,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:background="@drawable/rounded_border"
+                android:contentDescription="@string/create_account"
                 android:padding="10dp"
                 android:text="@string/create_account"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"

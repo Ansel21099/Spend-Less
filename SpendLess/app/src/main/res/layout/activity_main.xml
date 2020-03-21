@@ -25,6 +25,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:background="@drawable/rounded_border_accent"
+        android:contentDescription="@string/app_logo_spend_less"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
